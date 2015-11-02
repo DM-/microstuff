@@ -10,13 +10,13 @@ int main(void){
 	OCR0A = 0x7D; // set it to half duty cycle
 	//OCR0A = 0x00; // set it to 0 duty cycle
 	//OCR0A = 0xff; // set it to 100 duty cycle
+	volatile int changeInRegister = 1;
 	while(1){
-		if (OCR0A==255)
+		if ((OCR0A==0xff|OCR0A==0x00))
 		{
-			OCR0A++;
+			changeInRegister = changeInRegister * -1;
 		}
-		else{
-			OCR0A--;
-		}
+		OCR0A = OCR0A + changeInRegister;
+		_delay_ms(10);
 		}
 }
