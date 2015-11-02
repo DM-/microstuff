@@ -6,8 +6,8 @@
 int main(void){
 	DDRB |= _BV(0); // set pin 0 as output
 	DDRB &= ~_BV(4);
-	PORTB |= _BV(4); //set input pin pullup
-	TCCR0A |= (_BV(COM0A1)|_BV(WGM00)|_BV(WGM00)); // set the output pin, and set fast pwm
+	PORTB |= _BV(4); //set  input pin pullup
+	TCCR0A |= (_BV(COM0A1)|_BV(WGM00)|_BV(WGM01)); // set the output pin, and set fast pwm
 	TCCR0B |= _BV(CS00);
 	OCR0A = 0x7D; // set it to half duty cycle
 	//OCR0A = 0x00; // set it to 0 duty cycle
