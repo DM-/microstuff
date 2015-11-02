@@ -11,8 +11,12 @@ int main(void){
 	//OCR0A = 0x00; // set it to 0 duty cycle
 	//OCR0A = 0xff; // set it to 100 duty cycle
 	while(1){
-		unsigned char temp=OCR0A;
-		OCR0A=temp+10;
-		_delay_ms(100);
+		if (OCR0A==255)
+		{
+			OCR0A++;
+		}
+		else{
+			OCR0A--;
+		}
 		}
 }
