@@ -13,7 +13,7 @@ int main(void){
 	//OCR0A = 0xff; // set it to 100 duty cycle
 	int changeInRegister = 1;
 	while(1){
-		if ((OCR0A==0xff|OCR0A==0x00))
+		if ((OCR0A==0xff)|(OCR0A==0x00))
 		{
 			changeInRegister = changeInRegister * -1;
 		}
