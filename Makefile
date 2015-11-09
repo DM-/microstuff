@@ -2,7 +2,8 @@ TARGET		:= 		atmega8
 PORT		:= 		/dev/ttyUSB0
 PROGRAMMER	:=		avrisp
 RATE		:=		19200
-.PHONY		:		fuses
+GENERAL		:=		-U 
+.PHONY		:		fuses generic
 %.upload: %.hex
 	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U flash:w:$*.hex
 %.elf: %.c
@@ -16,3 +17,5 @@ fuses:
 	date >>fuses
 	echo "and the target is" $(TARGET) >>fuses
 	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U hfuse:r:-:b -U lfuse:r:-:b >>fuses
+generic:
+	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) $(GENERAL)
