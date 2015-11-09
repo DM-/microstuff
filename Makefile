@@ -12,3 +12,5 @@ RATE		:=		19200
 
 %.asm: %.c
 	avr-gcc -mmcu=$(TARGET) -S -Wall -Os -o $@ $<
+fuses:	
+	vrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U hfuse:r:hfuse.bin:b -U lfuse:r:lfuse.bin:b
