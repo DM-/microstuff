@@ -4,11 +4,9 @@
 #include <util/delay.h>
 
 int main(void){
-	DDRB |= _BV(3); // set pin 0 as output
-	DDRB |= _BV(4);
-	PORTB |= _BV(4);
+	DDRB |= _BV(0); // set pin 3 as output
 	while(1){
-		PORTB ^= _BV(3);
+		PORTB ^= _BV(0);
 		_delay_ms(100);
 	}
 }
