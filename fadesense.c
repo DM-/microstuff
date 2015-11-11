@@ -5,8 +5,9 @@
 
 int main(void){
 	DDRB |= _BV(1); // set pin 0 as output
-	TCCR1A |= (_BV(COM1A1)|_BV(WGM10)); // set the output pin, and set fast pwm
-	TCCR1B |= _BV(CS10)|_BV(WGM12); // and set clock 
+	PORTB |= _BV(4); //set  input pin pullup
+	TCCR1A |= (_BV(COM1A1)|_BV(WGM10)|_BV(WGM11)); // set the output pin, and set fast pwm
+	TCCR1B |= _BV(CS10)|_BV(WGM12);
 	OCR1A = 0x7D; // set it to half duty cycle
 	//OCR0A = 0x00; // set it to 0 duty cycle
 	//OCR0A = 0xff; // set it to 100 duty cycle
@@ -17,6 +18,10 @@ int main(void){
 			changeInRegister = changeInRegister * -1;
 		}
 		OCR1A = OCR1A + changeInRegister;
+		if (bit_is_set(PINB,4))
+		{
+			_delay_ms(9);
+		}
 		_delay_ms(1);
 		}
 }
