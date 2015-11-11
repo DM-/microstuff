@@ -24,10 +24,7 @@ main:
 	neg r18
 .L2:
 	in r24,0x2a
-	in r25,0x2a+1
 	add r24,r18
-	adc r25,r19
-	out 0x2a+1,r25
 	out 0x2a,r24
 	ldi r24,lo8(1999)
 	ldi r25,hi8(1999)
@@ -36,5 +33,3 @@ main:
 	rjmp .
 	nop
 	rjmp .L6
-	.size	main, .-main
-	.ident	"GCC: (GNU) 4.8.1"
