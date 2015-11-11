@@ -1,8 +1,9 @@
 #define F_CPU 8000000
 
 #include <avr/io.h>
-#include <util/delay.h>
-#include <avr/interrupt.h>
+#include <util/delay.h> // for delay
+#include <avr/interrupt.h> // for isr
+#include <avr/cpufunc.h> //for _NOP
 
 
 ISR(INT0_vect){
