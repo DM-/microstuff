@@ -2,7 +2,6 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "INCLUDEHEADER.h"
 
 int main(void){
 	DDRB |= _BV(1); // set pin 0 as output
