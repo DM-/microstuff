@@ -3,16 +3,17 @@ PORT		:= 		/dev/ttyUSB0
 PROGRAMMER	:=		avrisp
 RATE		:=		19200
 GENERAL		:=		-U 
+LIBRARIES	:=		
 .PHONY		:		fuses generic
 
 %.upload: %.hex
 	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U flash:w:$*.hex
 
 %.elf: %.c
-	avr-gcc -mmcu=$(TARGET) -Wall -Os -o $@ $<
+	avr-gcc -mmcu=$(TARGET) -L. -I. -Wall -Os -o $@ $< -l$(LIBRARIES)
 
 %.elf: %.asm
-	avr-gcc -mmcu=$(TARGET) -x assembler -Wall -Os -o $@ $<
+	avr-gcc -mmcu=$(TARGET) -L./lib/ -I./include/ -x assembler -Wall -Os -o $@ $< -l$(LIBRARIES)
 
 %.hex: %.elf
 	avr-objcopy -R .eeprom -O ihex $< $@
