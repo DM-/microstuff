@@ -4,6 +4,7 @@ PROGRAMMER	:=		avrisp
 RATE		:=		19200
 GENERAL		:=		-U 
 LIBRARIES	:=		
+LIBOBJ		:=		
 .PHONY		:		fuses generic
 
 %.upload: %.hex
@@ -21,7 +22,8 @@ LIBRARIES	:=
 %.asmt: %.c
 	avr-gcc -mmcu=$(TARGET) -S -Wall -Os -o $@ $<
 
-
+%.o: %.c
+	avr-gcc -mmcu=$(TARGET) -c -Wall -Os -o $@ $<
 
 fuses:
 	date >>fuses
