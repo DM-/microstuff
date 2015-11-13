@@ -8,11 +8,13 @@
 #define ENABLE 			0 		// The pin for the enable signal on the control port //1= lcd reads stuff, falling edge = lcd does stuff	
 #define REGISTERSELECT 	7		// The pin for the RS signal on the control port // 1=character, 0=command
 #define READWRITE 		6		// The pin for the RW signal on the control port // 1= read, 0=write
-#define DATAPORT		PORTD	// The port on which the data pins are
+#define DATAPORT		PORTD	// The port on which the data pins are written to
+#define DATAPIN			PIND
 #define DATAPORTDIR		DDRD	// The control register for the data pins
 
 void EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
+	asm ("nop"::);
 	asm ("nop"::);
 	CONTROLPORT &= ~_BV(ENABLE);
 }
@@ -22,7 +24,7 @@ void WaitLCDBusy(void){
 	CONTROLPORT &=~_BV(REGISTERSELECT); // this is inefficient in assembly, make it a cbi
 	CONTROLPORT	|= _BV(READWRITE);
 	EnablePulse();
-	while (bit_is_set(DATAPORT,0)){
+	while (bit_is_set(DATAPIN,0)){
 		EnablePulse();
 	}
 	DATAPORTDIR = 0xff; // this is ineffcient too, use SBR DATAPORTDIR 0xFF
@@ -67,7 +69,10 @@ void InitLcd(void){
 int main(void)
 {
 	InitLcd();
-	SendCharacter(0x2e);
+	SendCharacter(0x2e); // t
+	SendCharacter(0xa6); // e
+	SendCharacter(0xce); // s
+	SendCharacter(0x2e); // t
 	while(1){
 
 	}
