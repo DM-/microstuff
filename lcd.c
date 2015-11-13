@@ -3,12 +3,13 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define CONTROLPORT 	PORTB 
-#define ENABLE 			0
-#define REGISTERSELECT 	7
-#define READWRITE 		6
-#define DATAPORT		PORTD
-#define DATAPORTDIR		DDRD
+#define CONTROLPORT 	PORTB  	// The port on which the control pins are
+#define CONTROLPORTDIR	DDRB	// The control register for the control pins
+#define ENABLE 			0 		// The pin for the enable signal on the control port //1= lcd reads stuff, falling edge = lcd does stuff	
+#define REGISTERSELECT 	7		// The pin for the RS signal on the control port // 1=character, 0=command
+#define READWRITE 		6		// The pin for the RW signal on the control port // 1= read, 0=write
+#define DATAPORT		PORTD	// The port on which the data pins are
+#define DATAPORTDIR		DDRD	// The control register for the data pins
 
 void EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
@@ -18,26 +19,17 @@ void EnablePulse(void){
 
 void WaitLCDBusy(void){
 	DATAPORTDIR = 0x00;
-	CONTROLPORT &= _BV(REGISTERSELECT);
+	CONTROLPORT &= _BV(REGISTERSELECT); // this is inefficient in assembly, make it a cbi
 	CONTROLPORT	|= _BV(READWRITE);
 	while (bit_is_set(DATAPORT,7)){
 		EnablePulse();
 	}
-	DATAPORTDIR = 0xff;
+	DATAPORTDIR = 0xff; // this is ineffcient too, use SBR DATAPORTDIR 0xFF
 }
 
-void SendCharacter(unsigned char character){
-CheckIfBusy();
-PORTB = character;
-PORTD &= ~(1<<7); //turn off RW (write mode)
-PORTD |= (1<<2); //turn on RS (character display mode)
-BlinkLight();
-DDRB = 0;
-}
-
-void SendCommand(unsigned char command){
+void SendCommand(unsigned char command){ // both this and sendchar are TERRIBLY INEFFICIENT
 	WaitLCDBusy();
-	DATAPORT = command
+	DATAPORT = command;
 	CONTROLPORT &= _BV(REGISTERSELECT);
 	CONTROLPORT &= _BV(READWRITE);
 	EnablePulse();
@@ -50,5 +42,27 @@ void SendCharacter(unsigned char character){
 	CONTROLPORT &= _BV(READWRITE);
 	CONTROLPORT |= _BV(REGISTERSELECT);
 	EnablePulse();
-	DATAPORT = 0
+	DATAPORT = 0;
+}
+
+void InitLcd(void){
+	CONTROLPORTDIR |= _BV(ENABLE);
+	CONTROLPORTDIR |= _BV(REGISTERSELECT);
+	CONTROLPORTDIR |= _BV(READWRITE);
+	_delay_ms(20);
+	SendCommand(0x80);
+	_delay_ms(2);
+	SendCommand(0x1C);
+	_delay_ms(2);
+	SendCommand(0x70);
+	_delay_ms(2);
+}
+
+int main(void)
+{
+	InitLcd();
+	SendCharacter(0x2e);
+	while(1){
+
+	}
 }
