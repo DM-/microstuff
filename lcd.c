@@ -49,13 +49,19 @@ void InitLcd(void){
 	CONTROLPORTDIR |= _BV(ENABLE);
 	CONTROLPORTDIR |= _BV(REGISTERSELECT);
 	CONTROLPORTDIR |= _BV(READWRITE);
-	_delay_ms(20);
-	SendCommand(0x80);
-	_delay_ms(2);
-	SendCommand(0x1C);
-	_delay_ms(2);
-	SendCommand(0x70);
-	_delay_ms(2);
+	_delay_ms(40);
+	SendCommand(0x3C); //Function set, for reset
+	_delay_ms(40);
+	SendCommand(0x3C); //Function set, for reset
+	_delay_ms(40);
+	SendCommand(0x3C); //Function set, for real
+	_delay_ms(40);
+	SendCommand(0xF0); //Display, cursor and blink on
+	_delay_ms(40);
+	SendCommand(0x80); //Clear the display
+	_delay_ms(40);
+	SendCommand(0x60); //Entry mode set to increment, no shift
+
 }
 
 int main(void)
