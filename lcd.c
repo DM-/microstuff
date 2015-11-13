@@ -2,6 +2,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include "RBLT.h"
 
 #define CONTROLPORT 	PORTB  	// The port on which the control pins are
 #define CONTROLPORTDIR	DDRB	// The control register for the control pins
