@@ -73,7 +73,7 @@ void InitLcd(void){
 int main(void)
 {
 	InitLcd();
-	//SendCharacter(0xff);
+	SendCharacter(0xff);
 	while(1){
 
 	}
