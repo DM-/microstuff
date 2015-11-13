@@ -18,7 +18,7 @@
 								// The preprocessor optimize it out (if its static). Wont work on runtime generated output.
 
 #if REVERSED
-#define OUT(X) RBLT(X)
+#define OUT RBLT
 #else
 #define OUT(X) X
 #endif
@@ -73,7 +73,7 @@ void SendCharacter(unsigned char character){
 
 static void SendString(char *String){
 	while(*String){
-		SendCharacter(OUT(*String++));
+		SendCharacter(*String++);
 	}
 }
 
