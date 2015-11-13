@@ -12,7 +12,7 @@
 #define DATAPORT		PORTD	// The port on which the data pins are written to
 #define DATAPIN			PIND	// The input register for the data pins
 #define DATAPORTDIR		DDRD	// The control register for the data pins
-#define REVERSED		1		// Set this to one if the data port between uC and LCD are reversed. 0 Otherwise.
+#define REVERSED		0		// Set this to one if the data port between uC and LCD are reversed. 0 Otherwise.
 
 #if REVERSED
 #define OUT(X) RBLT(X)
@@ -20,8 +20,8 @@
 #define OUT(X) X
 #endif
 
-#define SHIFTCURSORRIGHT	SendCommand(RBLT(0x14))
-#define SHIFTCURSORLEFT		SendCommand(RBLT())
+#define SHIFTCURSORRIGHT	SendCommand(OUT(0x14))
+#define SHIFTCURSORLEFT		SendCommand(OUT())
 
 static inline void  __attribute__ ((always_inline)) EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
@@ -66,7 +66,7 @@ void SendCharacter(unsigned char character){
 
 static void SendString(char *String){
 	while (*String){
-		SendCharacter(RBLT(*String++));
+		SendCharacter(OUT(*String++));
 	}
 
 }
@@ -76,15 +76,15 @@ void InitLcd(void){
 	CONTROLPORTDIR |= _BV(REGISTERSELECT);
 	CONTROLPORTDIR |= _BV(READWRITE);
 	_delay_ms(40);
-	SendCommand(RBLT(0x3C)); //Function set, for reset
+	SendCommand(OUT(0x3C)); //Function set, for reset
 	_delay_ms(40);
-	SendCommand(RBLT(0x3C)); //Function set, for real
+	SendCommand(OUT(0x3C)); //Function set, for real
 	_delay_ms(40);
-	SendCommand(RBLT(0x0E)); //Display, cursor and blink off
+	SendCommand(OUT(0x0E)); //Display, cursor and blink off
 	_delay_ms(40);
-	SendCommand(RBLT(0x01)); //Clear the display
+	SendCommand(OUT(0x01)); //Clear the display
 	_delay_ms(40);
-	SendCommand(RBLT(0x06)); //Entry mode set to increment, no shift
+	SendCommand(OUT(0x06)); //Entry mode set to increment, no shift
 	_delay_ms(40);
 }
 
@@ -95,7 +95,7 @@ int main(void)
 	SendCharacter(OUT('e')); // e
 	SendCharacter(OUT('s')); // s
 	SendCharacter(OUT('t')); // t
-	SendCommand(RBLT(0xC8));
+	SendCommand(OUT(0xC8));
 	SendString("TEST");
 	SHIFTCURSORRIGHT;
 	while(1){
