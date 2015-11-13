@@ -13,6 +13,9 @@
 #define DATAPIN			PIND	// The input register for the data pins
 #define DATAPORTDIR		DDRD	// The control register for the data pins
 #define REVERSED		0		// Set this to one if the data port between uC and LCD are reversed. 0 Otherwise.
+								// Reversed uses a 300 byte lookuptable and  few cycles per character. Not recommended.
+								// You can set Reversed to 0 and manually invoke SendCharacter(RBLT(OUTPUT)) to have
+								// The preprocessor optimize it out (if its static). Wont work on runtime generated output.
 
 #if REVERSED
 #define OUT(X) RBLT(X)
@@ -57,7 +60,7 @@ void SendCommand(unsigned char command){ // both this and sendchar are TERRIBLY 
 
 void SendCharacter(unsigned char character){
 	WaitLCDBusy();
-	DATAPORT = character;
+	DATAPORT = OUT(character);
 	CONTROLPORT &=~_BV(READWRITE);
 	CONTROLPORT |= _BV(REGISTERSELECT);
 	EnablePulse();
@@ -96,7 +99,6 @@ int main(void)
 	SendCharacter(OUT('s')); // s
 	SendCharacter(OUT('t')); // t
 	SendCommand(OUT(0xC8));
-	SendString("TEST");
 	SHIFTCURSORRIGHT;
 	while(1){
 
