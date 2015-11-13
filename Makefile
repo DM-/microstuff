@@ -22,7 +22,7 @@ LIBOBJ		:=
 	avr-objcopy -R .eeprom -O ihex $< $@
 
 %.asmt: %.c
-	avr-gcc -mmcu=$(TARGET) -S -Wall -Os -o ./asmt/$@ $<
+	avr-gcc -mmcu=$(TARGET) -S -L./lib/ -I./include/ -Wall -Os -o ./asmt/$@ $<
 
 %.o: %.c
 	avr-gcc -mmcu=$(TARGET) -c -Wall -Os -o $@ $<
