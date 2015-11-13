@@ -12,7 +12,7 @@
 #define DATAPORT		PORTD	// The port on which the data pins are written to
 #define DATAPIN			PIND	// The input register for the data pins
 #define DATAPORTDIR		DDRD	// The control register for the data pins
-#define REVERSED		0		// Set this to one if the data port between uC and LCD are reversed. 0 Otherwise.
+#define REVERSED		1		// Set this to one if the data port between uC and LCD are reversed. 0 Otherwise.
 								// Reversed uses a 300 byte lookuptable and  few cycles per character. Not recommended.
 								// You can set Reversed to 0 and manually invoke SendCharacter(RBLT(OUTPUT)) to have
 								// The preprocessor optimize it out (if its static). Wont work on runtime generated output.
@@ -51,7 +51,7 @@ static void WaitLCDBusy(void){
 
 void SendCommand(unsigned char command){ // both this and sendchar are TERRIBLY INEFFICIENT
 	WaitLCDBusy();
-	DATAPORT = command;
+	DATAPORT = OUT(command);
 	CONTROLPORT &=~_BV(REGISTERSELECT);
 	CONTROLPORT &=~_BV(READWRITE);
 	EnablePulse();
@@ -79,26 +79,26 @@ void InitLcd(void){
 	CONTROLPORTDIR |= _BV(REGISTERSELECT);
 	CONTROLPORTDIR |= _BV(READWRITE);
 	_delay_ms(40);
-	SendCommand(OUT(0x3C)); //Function set, for reset
+	SendCommand(0x3C); //Function set, for reset
 	_delay_ms(40);
-	SendCommand(OUT(0x3C)); //Function set, for real
+	SendCommand(0x3C); //Function set, for real
 	_delay_ms(40);
-	SendCommand(OUT(0x0E)); //Display, cursor and blink off
+	SendCommand(0x0E); //Display, cursor and blink off
 	_delay_ms(40);
-	SendCommand(OUT(0x01)); //Clear the display
+	SendCommand(0x01); //Clear the display
 	_delay_ms(40);
-	SendCommand(OUT(0x06)); //Entry mode set to increment, no shift
+	SendCommand(0x06); //Entry mode set to increment, no shift
 	_delay_ms(40);
 }
 
 int main(void)
 {
 	InitLcd();
-	SendCharacter(OUT('t')); // t
-	SendCharacter(OUT('e')); // e
-	SendCharacter(OUT('s')); // s
-	SendCharacter(OUT('t')); // t
-	SendCommand(OUT(0xC8));
+	SendCharacter('t'); // t
+	SendCharacter('e'); // e
+	SendCharacter('s'); // s
+	SendCharacter('t'); // t
+	SendCommand(0xC8);
 	SHIFTCURSORRIGHT;
 	while(1){
 
