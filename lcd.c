@@ -26,9 +26,10 @@ void EnablePulse(void){
 
 void WaitLCDBusy(void){
 	DATAPORTDIR = 0x00;
-	CONTROLPORT &= _BV(REGISTERSELECT); // this is inefficient in assembly, make it a cbi
+	CONTROLPORT &=~_BV(REGISTERSELECT); // this is inefficient in assembly, make it a cbi
 	CONTROLPORT	|= _BV(READWRITE);
-	while (bit_is_set(DATAPORT,7)){
+	EnablePulse();
+	while (bit_is_set(DATAPORT,0)){
 		EnablePulse();
 	}
 	DATAPORTDIR = 0xff; // this is ineffcient too, use SBR DATAPORTDIR 0xFF
@@ -37,8 +38,8 @@ void WaitLCDBusy(void){
 void SendCommand(unsigned char command){ // both this and sendchar are TERRIBLY INEFFICIENT
 	WaitLCDBusy();
 	DATAPORT = command;
-	CONTROLPORT &= _BV(REGISTERSELECT);
-	CONTROLPORT &= _BV(READWRITE);
+	CONTROLPORT &=~_BV(REGISTERSELECT);
+	CONTROLPORT &=~_BV(READWRITE);
 	EnablePulse();
 	DATAPORT = 0;
 }
@@ -46,7 +47,7 @@ void SendCommand(unsigned char command){ // both this and sendchar are TERRIBLY 
 void SendCharacter(unsigned char character){
 	WaitLCDBusy();
 	DATAPORT = character;
-	CONTROLPORT &= _BV(READWRITE);
+	CONTROLPORT &=~_BV(READWRITE);
 	CONTROLPORT |= _BV(REGISTERSELECT);
 	EnablePulse();
 	DATAPORT = 0;
@@ -57,11 +58,13 @@ void InitLcd(void){
 	CONTROLPORTDIR |= _BV(REGISTERSELECT);
 	CONTROLPORTDIR |= _BV(READWRITE);
 	_delay_ms(40);
-	SendCommand(0x3C); //Function set, for reset
+	SendCommand(0x0C); //Function set, for reset
 	_delay_ms(40);
-	SendCommand(0x3C); //Function set, for real
+	SendCommand(0x0C); //Function set, for real
 	_delay_ms(40);
-	SendCommand(0xF0); //Display, cursor and blink on
+	//SendCommand(0x1C); //Function set, for real
+	//_delay_ms(400);
+	SendCommand(0x70); //Display, cursor and blink off
 	_delay_ms(400);
 	SendCommand(0x80); //Clear the display
 	_delay_ms(400);
@@ -73,7 +76,7 @@ void InitLcd(void){
 int main(void)
 {
 	InitLcd();
-	SendCharacter(0xff);
+	SendCharacter(0x2e);
 	while(1){
 
 	}
