@@ -14,14 +14,7 @@
 void EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
 	asm ("nop"::);
-	asm ("nop"::);
-	asm ("nop"::);
-	asm ("nop"::);
 	CONTROLPORT &= ~_BV(ENABLE);
-	asm ("nop"::);
-	asm ("nop"::);
-	asm ("nop"::);
-	asm ("nop"::);
 }
 
 void WaitLCDBusy(void){
@@ -62,14 +55,12 @@ void InitLcd(void){
 	_delay_ms(40);
 	SendCommand(0x0C); //Function set, for real
 	_delay_ms(40);
-	//SendCommand(0x1C); //Function set, for real
-	//_delay_ms(400);
 	SendCommand(0x70); //Display, cursor and blink off
-	_delay_ms(400);
+	_delay_ms(40);
 	SendCommand(0x80); //Clear the display
-	_delay_ms(400);
+	_delay_ms(40);
 	SendCommand(0x60); //Entry mode set to increment, no shift
-	_delay_ms(400);
+	_delay_ms(40);
 
 }
 
