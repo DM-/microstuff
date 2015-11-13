@@ -54,6 +54,15 @@ void SendCharacter(unsigned char character){
 	DATAPORT = 0;
 }
 
+static void SendString(char String[]){
+	int i = 0;
+	while (String[i]){
+		SendCharacter(String[i]);
+		i++;
+	}
+
+}
+
 void InitLcd(void){
 	CONTROLPORTDIR |= _BV(ENABLE);
 	CONTROLPORTDIR |= _BV(REGISTERSELECT);
@@ -69,21 +78,17 @@ void InitLcd(void){
 	_delay_ms(40);
 	SendCommand(RBLT(0x06)); //Entry mode set to increment, no shift
 	_delay_ms(40);
-
 }
 
 int main(void)
 {
 	InitLcd();
 	SendCharacter(RBLT('t')); // t
-	SendCharacter(0xa6); // e
+	SendCharacter(RBLT(0xa6)); // e
 	SendCharacter(0xce); // s
 	SendCharacter(0x2e); // t
 	SendCommand(RBLT(0xC0));
-	SendCharacter(0x2e); // t
-	SendCharacter(0xa6); // e
-	SendCharacter(0xce); // s
-	SendCharacter(0x2e); // t
+	SendString("test2");
 	while(1){
 
 	}
