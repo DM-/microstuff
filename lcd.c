@@ -54,11 +54,9 @@ void SendCharacter(unsigned char character){
 	DATAPORT = 0;
 }
 
-static void SendString(char String[]){
-	int i = 0;
-	while (String[i]){
-		SendCharacter(String[i]);
-		i++;
+static void SendString(char *String){
+	while (*String){
+		SendCharacter(*String++);
 	}
 
 }
