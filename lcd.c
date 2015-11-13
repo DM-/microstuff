@@ -12,7 +12,7 @@
 #define DATAPIN			PIND
 #define DATAPORTDIR		DDRD	// The control register for the data pins
 
-inline void __attribute__ ((always_inline)) EnablePulse(void){
+static inline void  __attribute__ ((always_inline)) EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
 	asm ("nop"::);
 	CONTROLPORT &= ~_BV(ENABLE);
