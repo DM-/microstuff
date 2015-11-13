@@ -13,16 +13,16 @@ LIBOBJ		:=
 	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U flash:w:$*.hex
 
 %.elf: %.c
-	avr-gcc -mmcu=$(TARGET) -L./lib/ -I./include/ -Wall -Os -o $@ $< $(LIBRARIES)
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -Wall -Os -o $@ $< $(LIBRARIES)
 
 %.elf: %.asm
-	avr-gcc -mmcu=$(TARGET) -L./lib/ -I./include/ -x assembler -Wall -Os -o $@ $< $(LIBRARIES)
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -x assembler -Wall -Os -o $@ $< $(LIBRARIES)
 
 %.hex: %.elf
 	avr-objcopy -R .eeprom -O ihex $< $@
 
 %.asmt: %.c
-	avr-gcc -mmcu=$(TARGET) -S -L./lib/ -I./include/ -Wall -Os -o ./asmt/$@ $<
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -S -L./lib/ -I./include/ -Wall -Os -o ./asmt/$@ $<
 
 %.o: %.c
 	avr-gcc -mmcu=$(TARGET) -c -Wall -Os -o $@ $<
