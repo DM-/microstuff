@@ -7,6 +7,8 @@ LIBRARIES	:=
 LIBOBJ		:=		
 .PHONY		:		fuses generic
 
+# -flto can let the compiler optimise many .c s together
+
 %.upload: %.hex
 	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U flash:w:$*.hex
 
