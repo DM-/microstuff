@@ -97,10 +97,12 @@ void InitLcd(void){
 int main(void)
 {
 	InitLcd();
-	SendString("testing");
-	SendCharacter(0x17);
+	SendCharacter('t');
+	SendCharacter('e');
+	SendCharacter('s');
+	SendCharacter('t');
 	SendCommand(0xC8);
-	SHIFTCURSORRIGHT;
+	SendString("testing");
 	while(1){
 
 	}
