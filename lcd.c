@@ -84,9 +84,9 @@ int main(void)
 {
 	InitLcd();
 	SendCharacter(RBLT('t')); // t
-	SendCharacter(RBLT(0xa6)); // e
-	SendCharacter(0xce); // s
-	SendCharacter(0x2e); // t
+	SendCharacter(RBLT('e')); // e
+	SendCharacter(RBLT('s')); // s
+	SendCharacter(RBLT('t')); // t
 	SendCommand(RBLT(0xC0));
 	SendString("test2");
 	while(1){
