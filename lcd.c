@@ -19,7 +19,7 @@ static inline void  __attribute__ ((always_inline)) EnablePulse(void){
 }
 
 
-void WaitLCDBusy(void){
+static void WaitLCDBusy(void){
 	DATAPORTDIR = 0x00;
 	DATAPORT 	= 0x00;
 	CONTROLPORT &=~_BV(REGISTERSELECT); // this is inefficient in assembly, make it a cbi
