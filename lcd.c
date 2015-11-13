@@ -56,7 +56,7 @@ void SendCharacter(unsigned char character){
 
 static void SendString(char *String){
 	while (*String){
-		SendCharacter(*String++);
+		SendCharacter(RBLT(*String++));
 	}
 
 }
@@ -86,7 +86,7 @@ int main(void)
 	SendCharacter(RBLT('s')); // s
 	SendCharacter(RBLT('t')); // t
 	SendCommand(RBLT(0xC0));
-	SendString("test2");
+	SendString("TEST");
 	while(1){
 
 	}
