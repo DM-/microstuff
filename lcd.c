@@ -72,7 +72,7 @@ void SendCharacter(unsigned char character){
 }
 
 static void SendString(char *String){
-	while (*String){
+	while(*String){
 		SendCharacter(OUT(*String++));
 	}
 }
@@ -97,10 +97,7 @@ void InitLcd(void){
 int main(void)
 {
 	InitLcd();
-	SendCharacter('t'); // t
-	SendCharacter('e'); // e
-	SendCharacter('s'); // s
-	SendCharacter('t'); // t
+	SendString("testing");
 	SendCharacter(0x17);
 	SendCommand(0xC8);
 	SHIFTCURSORRIGHT;
