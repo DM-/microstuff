@@ -10,8 +10,18 @@
 #define REGISTERSELECT 	7		// The pin for the RS signal on the control port // 1=character, 0=command
 #define READWRITE 		6		// The pin for the RW signal on the control port // 1= read, 0=write
 #define DATAPORT		PORTD	// The port on which the data pins are written to
-#define DATAPIN			PIND
+#define DATAPIN			PIND	// The input register for the data pins
 #define DATAPORTDIR		DDRD	// The control register for the data pins
+#define REVERSED		1		// Set this to one if the data port between uC and LCD are reversed. 0 Otherwise.
+
+#if REVERSED
+#define OUT(X) RBLT(X)
+#else
+#define OUT(X) X
+#endif
+
+#define SHIFTCURSORRIGHT	SendCommand(RBLT(0x14))
+#define SHIFTCURSORLEFT		SendCommand(RBLT())
 
 static inline void  __attribute__ ((always_inline)) EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
@@ -81,12 +91,13 @@ void InitLcd(void){
 int main(void)
 {
 	InitLcd();
-	SendCharacter(RBLT('t')); // t
-	SendCharacter(RBLT('e')); // e
-	SendCharacter(RBLT('s')); // s
-	SendCharacter(RBLT('t')); // t
+	SendCharacter(OUT('t')); // t
+	SendCharacter(OUT('e')); // e
+	SendCharacter(OUT('s')); // s
+	SendCharacter(OUT('t')); // t
 	SendCommand(RBLT(0xC8));
-	SendString("TEST");;
+	SendString("TEST");
+	SHIFTCURSORRIGHT;
 	while(1){
 
 	}
