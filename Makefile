@@ -25,6 +25,9 @@ LIBOBJ		:=
 %.o: %.c
 	avr-gcc -mmcu=$(TARGET) -c -Wall -Os -o $@ $<
 
+%.o: %.asm
+	avr-gcc -mmcu=$(TARGET) -x assembler -c -Wall -Os -o $@ $<
+
 fuses:
 	date >>fuses
 	echo "and the target is" $(TARGET) >>fuses
