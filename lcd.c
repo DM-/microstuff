@@ -85,8 +85,8 @@ int main(void)
 	SendCharacter(RBLT('e')); // e
 	SendCharacter(RBLT('s')); // s
 	SendCharacter(RBLT('t')); // t
-	SendCommand(RBLT(0xC0));
-	SendString("TEST");
+	SendCommand(RBLT(0xC8));
+	SendString("TEST");;
 	while(1){
 
 	}
