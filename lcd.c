@@ -12,20 +12,25 @@
 #define DATAPIN			PIND
 #define DATAPORTDIR		DDRD	// The control register for the data pins
 
-void EnablePulse(void){
+inline void __attribute__ ((always_inline)) EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
-	asm ("nop"::);
 	asm ("nop"::);
 	CONTROLPORT &= ~_BV(ENABLE);
 }
 
+
 void WaitLCDBusy(void){
 	DATAPORTDIR = 0x00;
+	DATAPORT 	= 0x00;
 	CONTROLPORT &=~_BV(REGISTERSELECT); // this is inefficient in assembly, make it a cbi
 	CONTROLPORT	|= _BV(READWRITE);
 	EnablePulse();
 	while (bit_is_set(DATAPIN,0)){
 		EnablePulse();
+		// CONTROLPORT	|= _BV(ENABLE);
+		// _delay_ms(10);
+		// CONTROLPORT &= ~_BV(ENABLE);
+		// asm ("nop"::);
 	}
 	DATAPORTDIR = 0xff; // this is ineffcient too, use SBR DATAPORTDIR 0xFF
 }
