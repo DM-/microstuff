@@ -24,14 +24,18 @@
 #endif
 
 #define SHIFTCURSORRIGHT	SendCommand(OUT(0x14))
-#define SHIFTCURSORLEFT		SendCommand(OUT())
+#define SHIFTCURSORLEFT		SendCommand(OUT(0x10))
+#define SHIFTSCREENRIGHT	SendCommand(OUT(0x1C))
+#define SHIFTSCREENLEFT		SendCommand(OUT(0x18))
+#define CLEARDISPLAY		SendCommand(OUT(0x01))
+#define	HOMEDISPLAY			SendCommand(OUT(0x02))
+
 
 static inline void  __attribute__ ((always_inline)) EnablePulse(void){
 	CONTROLPORT	|= _BV(ENABLE);
 	asm ("nop"::);
 	CONTROLPORT &= ~_BV(ENABLE);
 }
-
 
 static void WaitLCDBusy(void){
 	DATAPORTDIR = 0x00;
@@ -71,7 +75,6 @@ static void SendString(char *String){
 	while (*String){
 		SendCharacter(OUT(*String++));
 	}
-
 }
 
 void InitLcd(void){
@@ -79,9 +82,9 @@ void InitLcd(void){
 	CONTROLPORTDIR |= _BV(REGISTERSELECT);
 	CONTROLPORTDIR |= _BV(READWRITE);
 	_delay_ms(40);
-	SendCommand(0x3C); //Function set, for reset
+	SendCommand(0x38); //Function set, for reset
 	_delay_ms(40);
-	SendCommand(0x3C); //Function set, for real
+	SendCommand(0x38); //Function set, for real
 	_delay_ms(40);
 	SendCommand(0x0E); //Display, cursor and blink off
 	_delay_ms(40);
@@ -98,6 +101,7 @@ int main(void)
 	SendCharacter('e'); // e
 	SendCharacter('s'); // s
 	SendCharacter('t'); // t
+	SendCharacter(0x17);
 	SendCommand(0xC8);
 	SHIFTCURSORRIGHT;
 	while(1){
