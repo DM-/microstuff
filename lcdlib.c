@@ -20,9 +20,9 @@
 #define	HOMEDISPLAY			SendCommand(0x02)
 ; // just here to fix a syntax highlight bug in sublime
 
-static void SendCommandASM(unsigned char);
-static void SendCharacterASM(unsigned char);
-static void InitLcd(void); // Actually is replaced by asm version by preprocessor.
+void SendCommandASM(unsigned char);
+void SendCharacterASM(unsigned char);
+void InitLcd(void); // Actually is replaced by asm version by preprocessor.
 void SendStringASM(char *); // There is no reversed option for sendstring
 #define SendString 			SendStringASM
 
