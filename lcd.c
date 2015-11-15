@@ -1,14 +1,14 @@
 #define REVERSED 1
 #define F_CPU 8000000
-#include "lcdlib.c"
+#include "liblcd.h"
 #include <avr/io.h>
 #include <util/delay.h>
 
 int main(void)
 {
-	InitLcd();
+	InitLCD();
 	InitPWM();
-	SetPWM(0x20);
+	SetPWM(0xF0);
 	SendCharacter('t');
 	SendCharacter('e');
 	SendCharacter('s');

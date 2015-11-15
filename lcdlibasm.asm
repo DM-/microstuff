@@ -4,7 +4,8 @@ __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
 ; can use _SFR_IO_ADDRESS & local symbol defines to make this very portable
-	.text
+;	.text
+.global WaitLCDBusyASM
 	.type	WaitLCDBusyASM, @function
 WaitLCDBusyASM:
 	out 0x11,__zero_reg__
@@ -58,9 +59,9 @@ SendStringASM:
 	rjmp 1b
 	2:ret
 	.size SendStringASM, .-SendStringASM
-.global	InitLcdASM
-	.type	InitLcdASM, @function
-InitLcdASM:
+.global	InitLCDASM
+	.type	InitLCDASM, @function
+InitLCDASM:
 	sbi 0x17,0
 	sbi 0x17,7
 	sbi 0x17,6
@@ -97,10 +98,10 @@ InitLcdASM:
 	ldi r24,lo8(0x06)
 	rcall SendCommandASM
 	ret
-	.size	InitLcdASM, .-InitLcdASM
-.global	InitLcdASMR
-	.type	InitLcdASMR, @function
-InitLcdASMR: //reversed InitLcdASM
+	.size	InitLCDASM, .-InitLCDASM
+.global	InitLCDASMR
+	.type	InitLCDASMR, @function
+InitLCDASMR: //reversed InitLcdASM
 	sbi 0x17,0
 	sbi 0x17,7
 	sbi 0x17,6
@@ -137,7 +138,7 @@ InitLcdASMR: //reversed InitLcdASM
 	ldi r24,lo8(0x60)
 	rcall SendCommandASM
 	ret
-	.size	InitLcdASMR, .-InitLcdASMR
+	.size	InitLCDASMR, .-InitLCDASMR
 
 .global InitPWMASM
 	.type InitPWMASM, @function

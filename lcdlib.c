@@ -10,10 +10,10 @@
 
 #if REVERSED
 #define OUT RBLT
-#define InitLcd InitLcdASMR
+#define InitLCD InitLCDASMR
 #else
 #define OUT(X) X
-#define InitLcd InitLcdASM
+#define InitLCD InitLCDASM
 #endif
 
 #define SHIFTCURSORRIGHT	SendCommand(0x14)
@@ -26,7 +26,7 @@
 
 void SendCommandASM(unsigned char);
 void SendCharacterASM(unsigned char);
-void InitLcd(void); // Actually is replaced by asm version by preprocessor.
+void InitLCD(void); // Actually is replaced by asm version by preprocessor.
 void SendStringASM(char *); // There is no reversed option for sendstring
 #define SendString 			SendStringASM
 void InitPWMASM(void);
