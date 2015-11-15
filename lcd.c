@@ -1,19 +1,15 @@
-#include "RBLT.h"
-
-void SendCommandASM(unsigned char);
-void SendCharacterASM(unsigned char);
-void InitLcd(void);
-void SendStringASM(char *);
+#define REVERSED 1
+#include "lcdlib.c"
 
 int main(void)
 {
 	InitLcd();
-	SendCharacterASM(RBLT('t'));
-	SendCharacterASM('e');
-	SendCharacterASM('s');
-	SendCharacterASM('t');
-	SendCommandASM(RBLT(0xC8));
-	SendStringASM("testing");
+	SendCharacter('t');
+	SendCharacter('e');
+	SendCharacter('s');
+	SendCharacter('t');
+	SendCommand(0xC8);
+	SendString("testing");
 	while(1){
 
 	}

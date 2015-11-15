@@ -58,8 +58,8 @@ SendStringASM:
 	rjmp 1b
 	2:ret
 	.size SendStringASM, .-SendStringASM
-.global	InitLcd
-	.type	InitLcd, @function
+.global	InitLcdASM
+	.type	InitLcdASM, @function
 InitLcdASM:
 	sbi 0x17,0
 	sbi 0x17,7
@@ -97,8 +97,9 @@ InitLcdASM:
 	ldi r24,lo8(0x06)
 	rcall SendCommandASM
 	ret
-	.size	InitLcd, .-InitLcd
-
+	.size	InitLcdASM, .-InitLcdASM
+.global	InitLcdASMR
+	.type	InitLcdASMR, @function
 InitLcdASMR: //reversed InitLcdASM
 	sbi 0x17,0
 	sbi 0x17,7
@@ -136,5 +137,5 @@ InitLcdASMR: //reversed InitLcdASM
 	ldi r24,lo8(0x60)
 	rcall SendCommandASM
 	ret
-	.size	InitLcd, .-InitLcd
+	.size	InitLcdASMR, .-InitLcdASMR
 	.ident	"DM- Lin.Git"
