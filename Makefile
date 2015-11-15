@@ -24,6 +24,9 @@ LIBOBJ		:=
 %.asmt: %.c
 	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -S -L./lib/ -I./include/ -Wall -Os -o ./asmt/$@ $<
 
+%.asmt: %.asm
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -S -L./lib/ -I./include/ -Wall -Os -x assembler-with-cpp -o ./asmt/$@ $<
+
 %.asmtd: %.elf
 	avr-objdump -S $< >./asmtd/$@
 
