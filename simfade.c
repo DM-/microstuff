@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#define STRENGTH 0x00
+#define STRENGTH 0xff
 #define FADEPORT PB1
 
 
