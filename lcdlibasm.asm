@@ -1,4 +1,3 @@
-	.file	"lcdlib.c"
 __SP_H__ = 0x3e
 __SP_L__ = 0x3d
 __SREG__ = 0x3f
@@ -86,8 +85,6 @@ InitLcd:
 	brne 1b
 	ldi r24,lo8(0x60)
 	rcall SendCommandASM
-	sbi 0x17, 1
-	sbi 0x18, 1
 	ret
 	.size	InitLcd, .-InitLcd
 	.ident	"DM- Lin.Git"
