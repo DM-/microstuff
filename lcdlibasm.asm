@@ -162,12 +162,14 @@ InitPWMASM:
 	ldi r25,0
 	out 0x2a+1,r25
 	out 0x2a,r24
+	ret
 	.size InitPWMASM, .-InitPWMASM
 
 .global SetPWMASM
 	.type SetPWMASM, @function
 SetPWMASM:
 	out 0x2a, r24
+	ret
 	.size SetPWMASM, .-SetPWMASM
 
 

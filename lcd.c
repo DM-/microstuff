@@ -10,7 +10,7 @@ int main(void)
 	PORTB |= _BV(1);
 	InitLcd();
 	InitPWMASM();
-	//SetPWMASM(0xff);
+	SetPWMASM(0xff);
 	SendCharacter('t');
 	SendCharacter('e');
 	SendCharacter('s');
