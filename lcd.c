@@ -3,6 +3,7 @@
 void SendCommandASM(unsigned char);
 void SendCharacterASM(unsigned char);
 void InitLcd(void);
+void SendStringASM(char *);
 
 int main(void)
 {
@@ -12,6 +13,7 @@ int main(void)
 	SendCharacterASM('s');
 	SendCharacterASM('t');
 	SendCommandASM(RBLT(0xC8));
+	SendStringASM("testing");
 	while(1){
 
 	}
