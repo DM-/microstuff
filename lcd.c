@@ -16,11 +16,11 @@ int main(void)
 	SendCharacter('1');
 	SendCharacter('2');
 	SendCharacter('3');
-	SendCommand(0xA5);
+	SendCommand(0x80|0x20);
 	SendCharacter('A');
 	SendCharacter('L');
 	SendCharacter('P');
-	SendCommand(0xC0);
+	SendCommand(0x80|0x40);
 	SendCharacter('t');
 	SendCharacter('e');
 	SendCharacter('s');
@@ -31,12 +31,12 @@ int main(void)
 	SendCharacter('4');
 	SendCharacter('5');
 	SendCharacter('6');
-	SendCommand(0xE6);
+	SendCommand(0x80|0x61);
 	SendCharacter('H');
 	SendCharacter('A');
 	while(1){
-		_delay_ms(100);
-		SendCommand(0x18);
+		_delay_ms(300);
+		SHIFTSCREENLEFT;
 
 	}
 }
