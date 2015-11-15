@@ -18,95 +18,35 @@ WaitLCDBusyASM:
 	cbi 0x18,0
 	sbic 0x10,0
 	rjmp .L2
-	ldi r24,0xFF
-	out 0x11,r24
+	ldi r25,0xFF
+	out 0x11,r25
 	;sbr 0x11,0xFF ;mb swap later
 	ret
 	.size	WaitLCDBusyASM, .-WaitLCDBusyASM
 .global	SendCommandASM
 	.type	SendCommandASM, @function
 SendCommandASM:
-	; in r25, __zero_reg__
-	; or r25, r24
-	; rcall WaitLCDBusyASM
-	; out 0x12,r25
-	; cbi 0x18,7
-	; cbi 0x18,6
-	; sbi 0x18,0
-	; nop
-	; cbi 0x18,0
-	; out 0x12,__zero_reg__
-	; ret
-	push r28
-	push r29
-	push __zero_reg__
-	in r28,__SP_L__
-	in r29,__SP_H__
-/* prologue: function */
-/* frame size = 1 */
-/* stack size = 3 */
-.L__stack_usage = 3
-	std Y+1,r24
 	rcall WaitLCDBusyASM
-	ldd r24,Y+1
 	out 0x12,r24
 	cbi 0x18,7
 	cbi 0x18,6
 	sbi 0x18,0
-/* #APP */
- ;  36 "lcd.c" 1
 	nop
- ;  0 "" 2
-/* #NOAPP */
 	cbi 0x18,0
 	out 0x12,__zero_reg__
-/* epilogue start */
-	pop __tmp_reg__
-	pop r29
-	pop r28
 	ret
 	.size	SendCommandASM, .-SendCommandASM
 .global	SendCharacterASM
 	.type	SendCharacterASM, @function
 SendCharacterASM:
-	; in r25, __zero_reg__
-	; or r25, r24
-	; rcall WaitLCDBusyASM
-	; out 0x12,r25
-	; sbi 0x18,7
-	; cbi 0x18,6
-	; sbi 0x18,0
-	; nop
-	; cbi 0x18,0
-	; out 0x12,__zero_reg__
-	; ret
-		push r28
-	push r29
-	push __zero_reg__
-	in r28,__SP_L__
-	in r29,__SP_H__
-/* prologue: function */
-/* frame size = 1 */
-/* stack size = 3 */
-.L__stack_usage = 3
-	std Y+1,r24
 	rcall WaitLCDBusyASM
-	ldd r24,Y+1
 	out 0x12,r24
-	cbi 0x18,6
 	sbi 0x18,7
+	cbi 0x18,6
 	sbi 0x18,0
-/* #APP */
- ;  36 "lcd.c" 1
 	nop
- ;  0 "" 2
-/* #NOAPP */
 	cbi 0x18,0
 	out 0x12,__zero_reg__
-/* epilogue start */
-	pop __tmp_reg__
-	pop r29
-	pop r28
 	ret
 	.size	SendCharacterASM, .-SendCharacterASM
 .global	InitLcd
@@ -155,16 +95,14 @@ InitLcd:
 	.type main, @function
 main:
 	rcall InitLcd
-	ldi r24,lo8(0x2e)
+	ldi r24,lo8(0xE6)
 	rcall SendCharacterASM
 	ldi r24,lo8(101)
 	rcall SendCharacterASM
 	ldi r24,lo8(115)
 	rcall SendCharacterASM
-	ldi r24,lo8(116)
+	ldi r24,lo8(0xE2)
 	rcall SendCharacterASM
 .L11:
 	rjmp .L11
 	.ident	"DM- Lin.Git"
-
-
