@@ -32,7 +32,7 @@ Disassembly of section .text:
   2c:	d4 e0       	ldi	r29, 0x04	; 4
   2e:	de bf       	out	0x3e, r29	; 62
   30:	cd bf       	out	0x3d, r28	; 61
-  32:	50 d0       	rcall	.+160    	; 0xd4 <main>
+  32:	46 d0       	rcall	.+140    	; 0xc0 <main>
   34:	51 c0       	rjmp	.+162    	; 0xd8 <_exit>
 
 00000036 <__bad_interrupt>:
@@ -43,87 +43,90 @@ Disassembly of section .text:
   3a:	12 ba       	out	0x12, r1	; 18
   3c:	c7 98       	cbi	0x18, 7	; 24
   3e:	c6 9a       	sbi	0x18, 6	; 24
-  40:	00 00       	nop
+  40:	c0 9a       	sbi	0x18, 0	; 24
   42:	00 00       	nop
-  44:	00 00       	nop
-  46:	c0 9a       	sbi	0x18, 0	; 24
-	...
-  50:	c0 98       	cbi	0x18, 0	; 24
-  52:	80 99       	sbic	0x10, 0	; 16
-  54:	f5 cf       	rjmp	.-22     	; 0x40 <__SREG__+0x1>
-  56:	8f ef       	ldi	r24, 0xFF	; 255
-  58:	81 bb       	out	0x11, r24	; 17
-  5a:	08 95       	ret
+  44:	c0 98       	cbi	0x18, 0	; 24
+  46:	80 99       	sbic	0x10, 0	; 16
+  48:	fb cf       	rjmp	.-10     	; 0x40 <__SREG__+0x1>
+  4a:	9f ef       	ldi	r25, 0xFF	; 255
+  4c:	91 bb       	out	0x11, r25	; 17
+  4e:	08 95       	ret
 
-0000005c <SendCommandASM>:
-  5c:	91 b1       	in	r25, 0x01	; 1
-  5e:	98 2b       	or	r25, r24
-  60:	eb df       	rcall	.-42     	; 0x38 <WaitLCDBusyASM>
-  62:	92 bb       	out	0x12, r25	; 18
-  64:	c7 98       	cbi	0x18, 7	; 24
-  66:	c6 98       	cbi	0x18, 6	; 24
-  68:	c0 9a       	sbi	0x18, 0	; 24
-  6a:	00 00       	nop
-  6c:	c0 98       	cbi	0x18, 0	; 24
-  6e:	12 ba       	out	0x12, r1	; 18
-  70:	08 95       	ret
+00000050 <SendCommandASM>:
+  50:	f3 df       	rcall	.-26     	; 0x38 <WaitLCDBusyASM>
+  52:	82 bb       	out	0x12, r24	; 18
+  54:	c7 98       	cbi	0x18, 7	; 24
+  56:	c6 98       	cbi	0x18, 6	; 24
+  58:	c0 9a       	sbi	0x18, 0	; 24
+  5a:	00 00       	nop
+  5c:	c0 98       	cbi	0x18, 0	; 24
+  5e:	12 ba       	out	0x12, r1	; 18
+  60:	08 95       	ret
 
-00000072 <SendCharacterASM>:
-  72:	91 b1       	in	r25, 0x01	; 1
-  74:	98 2b       	or	r25, r24
-  76:	e0 df       	rcall	.-64     	; 0x38 <WaitLCDBusyASM>
-  78:	92 bb       	out	0x12, r25	; 18
-  7a:	c7 9a       	sbi	0x18, 7	; 24
-  7c:	c6 98       	cbi	0x18, 6	; 24
-  7e:	c0 9a       	sbi	0x18, 0	; 24
-  80:	00 00       	nop
-  82:	c0 98       	cbi	0x18, 0	; 24
-  84:	12 ba       	out	0x12, r1	; 18
-  86:	08 95       	ret
+00000062 <SendCharacterASM>:
+  62:	ea df       	rcall	.-44     	; 0x38 <WaitLCDBusyASM>
+  64:	82 bb       	out	0x12, r24	; 18
+  66:	c7 9a       	sbi	0x18, 7	; 24
+  68:	c6 98       	cbi	0x18, 6	; 24
+  6a:	c0 9a       	sbi	0x18, 0	; 24
+  6c:	00 00       	nop
+  6e:	c0 98       	cbi	0x18, 0	; 24
+  70:	12 ba       	out	0x12, r1	; 18
+  72:	08 95       	ret
 
-00000088 <InitLcd>:
-  88:	b8 9a       	sbi	0x17, 0	; 23
-  8a:	bf 9a       	sbi	0x17, 7	; 23
-  8c:	be 9a       	sbi	0x17, 6	; 23
-  8e:	2f ef       	ldi	r18, 0xFF	; 255
-  90:	89 ef       	ldi	r24, 0xF9	; 249
-  92:	90 e0       	ldi	r25, 0x00	; 0
-  94:	21 50       	subi	r18, 0x01	; 1
-  96:	80 40       	sbci	r24, 0x00	; 0
-  98:	90 40       	sbci	r25, 0x00	; 0
-  9a:	e1 f7       	brne	.-8      	; 0x94 <InitLcd+0xc>
-  9c:	00 c0       	rjmp	.+0      	; 0x9e <InitLcd+0x16>
-  9e:	00 00       	nop
-  a0:	8c e1       	ldi	r24, 0x1C	; 28
-  a2:	dc df       	rcall	.-72     	; 0x5c <SendCommandASM>
-  a4:	28 ec       	ldi	r18, 0xC8	; 200
+00000074 <InitLcd>:
+  74:	b8 9a       	sbi	0x17, 0	; 23
+  76:	bf 9a       	sbi	0x17, 7	; 23
+  78:	be 9a       	sbi	0x17, 6	; 23
+  7a:	2f ef       	ldi	r18, 0xFF	; 255
+  7c:	89 ef       	ldi	r24, 0xF9	; 249
+  7e:	90 e0       	ldi	r25, 0x00	; 0
+  80:	21 50       	subi	r18, 0x01	; 1
+  82:	80 40       	sbci	r24, 0x00	; 0
+  84:	90 40       	sbci	r25, 0x00	; 0
+  86:	e1 f7       	brne	.-8      	; 0x80 <InitLcd+0xc>
+  88:	00 c0       	rjmp	.+0      	; 0x8a <InitLcd+0x16>
+  8a:	00 00       	nop
+  8c:	8c e1       	ldi	r24, 0x1C	; 28
+  8e:	e0 df       	rcall	.-64     	; 0x50 <SendCommandASM>
+  90:	28 e2       	ldi	r18, 0x28	; 40
+  92:	21 50       	subi	r18, 0x01	; 1
+  94:	f1 f7       	brne	.-4      	; 0x92 <InitLcd+0x1e>
+  96:	8c e1       	ldi	r24, 0x1C	; 28
+  98:	db df       	rcall	.-74     	; 0x50 <SendCommandASM>
+  9a:	28 e2       	ldi	r18, 0x28	; 40
+  9c:	21 50       	subi	r18, 0x01	; 1
+  9e:	f1 f7       	brne	.-4      	; 0x9c <InitLcd+0x28>
+  a0:	80 e7       	ldi	r24, 0x70	; 112
+  a2:	d6 df       	rcall	.-84     	; 0x50 <SendCommandASM>
+  a4:	28 e2       	ldi	r18, 0x28	; 40
   a6:	21 50       	subi	r18, 0x01	; 1
-  a8:	f1 f7       	brne	.-4      	; 0xa6 <InitLcd+0x1e>
-  aa:	8c e1       	ldi	r24, 0x1C	; 28
-  ac:	d7 df       	rcall	.-82     	; 0x5c <SendCommandASM>
-  ae:	28 ec       	ldi	r18, 0xC8	; 200
-  b0:	21 50       	subi	r18, 0x01	; 1
-  b2:	f1 f7       	brne	.-4      	; 0xb0 <InitLcd+0x28>
-  b4:	80 e7       	ldi	r24, 0x70	; 112
-  b6:	d2 df       	rcall	.-92     	; 0x5c <SendCommandASM>
-  b8:	28 ec       	ldi	r18, 0xC8	; 200
-  ba:	21 50       	subi	r18, 0x01	; 1
-  bc:	f1 f7       	brne	.-4      	; 0xba <InitLcd+0x32>
-  be:	80 e8       	ldi	r24, 0x80	; 128
-  c0:	cd df       	rcall	.-102    	; 0x5c <SendCommandASM>
-  c2:	80 ed       	ldi	r24, 0xD0	; 208
-  c4:	97 e0       	ldi	r25, 0x07	; 7
-  c6:	01 97       	sbiw	r24, 0x01	; 1
-  c8:	f1 f7       	brne	.-4      	; 0xc6 <InitLcd+0x3e>
-  ca:	80 e6       	ldi	r24, 0x60	; 96
-  cc:	c7 df       	rcall	.-114    	; 0x5c <SendCommandASM>
-  ce:	b9 9a       	sbi	0x17, 1	; 23
-  d0:	c1 9a       	sbi	0x18, 1	; 24
-  d2:	08 95       	ret
+  a8:	f1 f7       	brne	.-4      	; 0xa6 <InitLcd+0x32>
+  aa:	80 e8       	ldi	r24, 0x80	; 128
+  ac:	d1 df       	rcall	.-94     	; 0x50 <SendCommandASM>
+  ae:	80 ed       	ldi	r24, 0xD0	; 208
+  b0:	97 e0       	ldi	r25, 0x07	; 7
+  b2:	01 97       	sbiw	r24, 0x01	; 1
+  b4:	f1 f7       	brne	.-4      	; 0xb2 <InitLcd+0x3e>
+  b6:	80 e6       	ldi	r24, 0x60	; 96
+  b8:	cb df       	rcall	.-106    	; 0x50 <SendCommandASM>
+  ba:	b9 9a       	sbi	0x17, 1	; 23
+  bc:	c1 9a       	sbi	0x18, 1	; 24
+  be:	08 95       	ret
 
-000000d4 <main>:
-  d4:	d9 df       	rcall	.-78     	; 0x88 <InitLcd>
-  d6:	ff cf       	rjmp	.-2      	; 0xd6 <main+0x2>
+000000c0 <main>:
+  c0:	d9 df       	rcall	.-78     	; 0x74 <InitLcd>
+  c2:	8e e2       	ldi	r24, 0x2E	; 46
+  c4:	ce df       	rcall	.-100    	; 0x62 <SendCharacterASM>
+  c6:	85 e6       	ldi	r24, 0x65	; 101
+  c8:	cc df       	rcall	.-104    	; 0x62 <SendCharacterASM>
+  ca:	83 e7       	ldi	r24, 0x73	; 115
+  cc:	ca df       	rcall	.-108    	; 0x62 <SendCharacterASM>
+  ce:	84 e7       	ldi	r24, 0x74	; 116
+  d0:	c8 df       	rcall	.-112    	; 0x62 <SendCharacterASM>
+  d2:	83 e1       	ldi	r24, 0x13	; 19
+  d4:	bd df       	rcall	.-134    	; 0x50 <SendCommandASM>
+  d6:	ff cf       	rjmp	.-2      	; 0xd6 <main+0x16>
 
 000000d8 <_exit>:
   d8:	f8 94       	cli
