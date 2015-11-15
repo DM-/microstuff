@@ -31,10 +31,10 @@ LIBOBJ		:=
 	avr-objdump -S $< >./asmtd/$@
 
 %.o: %.c
-	avr-gcc -mmcu=$(TARGET) -c -Wall -Os -o $@ $<
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -c -L./lib/ -I./include/  -Wall -Os -o $@ $<
 
 %.o: %.asm
-	avr-gcc -mmcu=$(TARGET) -x assembler -c -Wall -Os -o $@ $<
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -c -x assembler-with-cpp -L./lib/ -I./include/ -Wall -Os -o $@ $<
 
 fuses:
 	date >>fuses
