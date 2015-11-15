@@ -1,12 +1,14 @@
 #include "avr/io.h"
 
-
 .section	.text
 .global	main
 .org 0x0000
 main:
 .L1:
-	sbi _SFR_IO_ADDR(DDRB) , PB1
+	; in r24 , _SFR_IO_ADDR(DDRB)
+	; ori r24 , PIN
+	; out _SFR_IO_ADDR(DDRB) , r24
+	sbi _SFR_IO_ADDR(DDRB) , PIN
 	in r24 , _SFR_IO_ADDR(TCCR1A)
 	ori r24 , -127
 	out _SFR_IO_ADDR(TCCR1A) , r24

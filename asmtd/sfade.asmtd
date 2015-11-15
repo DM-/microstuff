@@ -14,4 +14,4 @@ Disassembly of section .text:
    c:	8e bd       	out	0x2e, r24	; 46
    e:	84 e6       	ldi	r24, 0x64	; 100
   10:	8a bd       	out	0x2a, r24	; 42
-  12:	ff cf       	rjmp	.-2      	; 0x12 <__ctors_end+0x12>
+  12:	ff cf       	rjmp	.-2      	; 0x12 <PIN+0x11>
