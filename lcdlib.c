@@ -32,49 +32,9 @@
 #define CLEARDISPLAY		SendCommand(OUT(0x01))
 #define	HOMEDISPLAY			SendCommand(OUT(0x02))
 
-
-static inline void  __attribute__ ((always_inline)) EnablePulse(void){
-	CONTROLPORT	|= _BV(ENABLE);
-	asm ("nop"::);
-	CONTROLPORT &= ~_BV(ENABLE);
-}
-
-static void WaitLCDBusyASM(void){
-	DATAPORTDIR = 0x00;
-	DATAPORT 	= 0x00;
-	CONTROLPORT &=~_BV(REGISTERSELECT); // this is inefficient in assembly, make it a cbi
-	CONTROLPORT	|= _BV(READWRITE);
-	EnablePulse();
-	while (bit_is_set(DATAPIN,0)){
-		EnablePulse();
-		// CONTROLPORT	|= _BV(ENABLE);
-		// _delay_ms(10);
-		// CONTROLPORT &= ~_BV(ENABLE);
-		// asm ("nop"::);
-	}
-	DATAPORTDIR = 0xff; // this is ineffcient too, use SBR DATAPORTDIR 0xFF
-}
-
-void SendCommandASM(unsigned char command){ // both this and sendchar are TERRIBLY INEFFICIENT
-	WaitLCDBusyASM();
-	DATAPORT = command;
-	CONTROLPORT &=~_BV(REGISTERSELECT);
-	CONTROLPORT &=~_BV(READWRITE);
-	EnablePulse();
-	DATAPORT = 0;
-}
-
+; // just here to fix a syntax highlight bug in sublime
 static void SendCommand(unsigned char command){
 	SendCommandASM(OUT(command));
-}
-
-void SendCharacterASM(unsigned char character){
-	WaitLCDBusyASM();
-	DATAPORT = OUT(character);
-	CONTROLPORT &=~_BV(READWRITE);
-	CONTROLPORT |= _BV(REGISTERSELECT);
-	EnablePulse();
-	DATAPORT = 0;
 }
 
 static void SendCharacter(unsigned char character){
@@ -93,19 +53,13 @@ void InitLcd(void){
 	CONTROLPORTDIR |= _BV(REGISTERSELECT);
 	CONTROLPORTDIR |= _BV(READWRITE);
 	_delay_ms(40);
-	SendCommand(XD); //Function set, for reset
-	_delay_ms(40);
+	SendCommand(0x38); //Function set, for reset
+	_delay_us(40);
 	SendCommand(0x38); //Function set, for real
-	_delay_ms(40);
+	_delay_us(40);
 	SendCommand(0x0E); //Display, cursor and blink off
-	_delay_ms(40);
+	_delay_us(40);
 	SendCommand(0x01); //Clear the display
-	_delay_ms(40);
+	_delay_ms(4);
 	SendCommandASM(0x06); //Entry mode set to increment, no shift
-	_delay_ms(40);
-	SendString("testing");
-}
-
-void main(void){
-	InitLcd();
 }
