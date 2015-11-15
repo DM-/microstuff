@@ -30,7 +30,9 @@ void InitLcd(void); // Actually is replaced by asm version by preprocessor.
 void SendStringASM(char *); // There is no reversed option for sendstring
 #define SendString 			SendStringASM
 void InitPWMASM(void);
+#define InitPWM				InitPWMASM
 void SetPWMASM(unsigned char);
+#define SetPWM				SetPWMASM
 
 
 

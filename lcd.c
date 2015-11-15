@@ -1,4 +1,4 @@
-#define REVERSED 1
+#define REVERSED 0
 #define F_CPU 8000000
 #include "lcdlib.c"
 #include <avr/io.h>
@@ -7,8 +7,8 @@
 int main(void)
 {
 	InitLcd();
-	InitPWMASM();
-	SetPWMASM(0xF0);
+	InitPWM();
+	SetPWM(0x20);
 	SendCharacter('t');
 	SendCharacter('e');
 	SendCharacter('s');
