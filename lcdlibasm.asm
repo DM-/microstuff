@@ -19,8 +19,7 @@ WaitLCDBusyASM:
 	sbic 0x10,0
 	rjmp .L2
 	ldi r25,0xFF
-	out 0x11,r25
-	;sbr 0x11,0xFF ;mb swap later
+	out 0x11,r25 ; I hav no idea why ser 0x11 doesnt work. Wtf?
 	ret
 	.size	WaitLCDBusyASM, .-WaitLCDBusyASM
 .global	SendCommandASM
@@ -66,17 +65,17 @@ InitLcd:
 	nop
 	ldi r24,lo8(0x1C)
 	rcall SendCommandASM
-	ldi r18,lo8(200)
+	ldi r18,lo8(40)
 	1: subi r18,1
 	brne 1b
 	ldi r24,lo8(0x1C)
 	rcall SendCommandASM
-	ldi r18,lo8(200)
+	ldi r18,lo8(40)
 	1: subi r18,1
 	brne 1b
 	ldi r24,lo8(0x70)
 	rcall SendCommandASM
-	ldi r18,lo8(200)
+	ldi r18,lo8(40)
 	1: subi r18,1
 	brne 1b
 	ldi r24,lo8(0x80)
@@ -91,18 +90,4 @@ InitLcd:
 	sbi 0x18, 1
 	ret
 	.size	InitLcd, .-InitLcd
-.global main
-	.type main, @function
-main:
-	rcall InitLcd
-	ldi r24,lo8(0xE6)
-	rcall SendCharacterASM
-	ldi r24,lo8(101)
-	rcall SendCharacterASM
-	ldi r24,lo8(115)
-	rcall SendCharacterASM
-	ldi r24,lo8(0xE2)
-	rcall SendCharacterASM
-.L11:
-	rjmp .L11
 	.ident	"DM- Lin.Git"
