@@ -1,11 +1,16 @@
 #define REVERSED 1
 #define F_CPU 8000000
 #include "lcdlib.c"
+#include <avr/io.h>
 #include <util/delay.h>
 
 int main(void)
 {
+	DDRB |= _BV(1);
+	PORTB |= _BV(1);
 	InitLcd();
+	InitPWMASM();
+	//SetPWMASM(0xff);
 	SendCharacter('t');
 	SendCharacter('e');
 	SendCharacter('s');

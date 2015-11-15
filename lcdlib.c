@@ -1,5 +1,9 @@
 #include "RBLT.h"
 
+#ifdef PWM
+
+#endif
+
 #ifndef REVERSED
 #define REVERSED 0  // Set this to 1 here, on as a config define in your file to get stuff right
 #endif
@@ -25,6 +29,8 @@ void SendCharacterASM(unsigned char);
 void InitLcd(void); // Actually is replaced by asm version by preprocessor.
 void SendStringASM(char *); // There is no reversed option for sendstring
 #define SendString 			SendStringASM
+void InitPWMASM(void);
+void SetPWMASM(unsigned char);
 
 
 
