@@ -16,7 +16,7 @@ LIBOBJ		:=
 	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -Wall -Os -o $@ $< $(LIBRARIES)
 
 %.elf: %.asm
-	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -x assembler -Wall -Os -o $@ $< $(LIBRARIES)
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -x assembler-with-cpp -Wall -Os -o $@ $< $(LIBRARIES)
 
 %.hex: %.elf
 	avr-objcopy -R .eeprom -O ihex $< $@
