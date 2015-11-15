@@ -6,7 +6,8 @@ void InitLcd(void);
 
 int main(void)
 {
-	InitLcd();
+	SendCommandASM(0x80);
+	//InitLcd();
 	//SendCharacterASM(RBLT('t'));
 	//SendCharacterASM('e');
 	//SendCharacterASM('s');
