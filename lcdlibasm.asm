@@ -4,7 +4,7 @@ __SP_L__ = 0x3d
 __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
-
+; can use _SFR_IO_ADDRESS & local symbol defines to make this very portable
 	.text
 	.type	WaitLCDBusyASM, @function
 WaitLCDBusyASM:
@@ -62,7 +62,7 @@ InitLcd:
 	brne 1b
 	rjmp .
 	nop
-	ld r24,lo8(28)
+	ldi r24,lo8(28)
 	rcall SendCommandASM
 	ldi r18,lo8(40)
 	1: subi r18,1
@@ -79,10 +79,13 @@ InitLcd:
 	brne 1b
 	ldi r24,lo8(-128)
 	rcall SendCommandASM
-	ldi r18,lo8(2000)
-	1: subi r18,1
+	ldi r24,lo8(2000)
+	ldi r25,hi8(2000)
+	1: sbiw r24,1
 	brne 1b
 	rcall SendCommandASM
+	sbi 0x17, 1
+	sbi 0x18, 1
 	ret
 	.size	InitLcd, .-InitLcd
 	.ident	"DM- Lin.Git"
