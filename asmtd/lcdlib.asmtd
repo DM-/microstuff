@@ -1,0 +1,208 @@
+
+lcdlib.elf:     file format elf32-avr
+
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	24 c0       	rjmp	.+72     	; 0x4c <__bad_interrupt>
+   4:	23 c0       	rjmp	.+70     	; 0x4c <__bad_interrupt>
+   6:	22 c0       	rjmp	.+68     	; 0x4c <__bad_interrupt>
+   8:	21 c0       	rjmp	.+66     	; 0x4c <__bad_interrupt>
+   a:	20 c0       	rjmp	.+64     	; 0x4c <__bad_interrupt>
+   c:	1f c0       	rjmp	.+62     	; 0x4c <__bad_interrupt>
+   e:	1e c0       	rjmp	.+60     	; 0x4c <__bad_interrupt>
+  10:	1d c0       	rjmp	.+58     	; 0x4c <__bad_interrupt>
+  12:	1c c0       	rjmp	.+56     	; 0x4c <__bad_interrupt>
+  14:	1b c0       	rjmp	.+54     	; 0x4c <__bad_interrupt>
+  16:	1a c0       	rjmp	.+52     	; 0x4c <__bad_interrupt>
+  18:	19 c0       	rjmp	.+50     	; 0x4c <__bad_interrupt>
+  1a:	18 c0       	rjmp	.+48     	; 0x4c <__bad_interrupt>
+  1c:	17 c0       	rjmp	.+46     	; 0x4c <__bad_interrupt>
+  1e:	16 c0       	rjmp	.+44     	; 0x4c <__bad_interrupt>
+  20:	15 c0       	rjmp	.+42     	; 0x4c <__bad_interrupt>
+  22:	14 c0       	rjmp	.+40     	; 0x4c <__bad_interrupt>
+  24:	13 c0       	rjmp	.+38     	; 0x4c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	11 e0       	ldi	r17, 0x01	; 1
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	ee e6       	ldi	r30, 0x6E	; 110
+  3a:	f1 e0       	ldi	r31, 0x01	; 1
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <__SREG__+0x3>
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+  42:	aa 36       	cpi	r26, 0x6A	; 106
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <__SP_H__>
+  48:	8f d0       	rcall	.+286    	; 0x168 <main>
+  4a:	8f c0       	rjmp	.+286    	; 0x16a <_exit>
+
+0000004c <__bad_interrupt>:
+  4c:	d9 cf       	rjmp	.-78     	; 0x0 <__vectors>
+
+0000004e <WaitLCDBusyASM>:
+  4e:	11 ba       	out	0x11, r1	; 17
+  50:	12 ba       	out	0x12, r1	; 18
+  52:	c7 98       	cbi	0x18, 7	; 24
+  54:	c6 9a       	sbi	0x18, 6	; 24
+  56:	c0 9a       	sbi	0x18, 0	; 24
+  58:	00 00       	nop
+  5a:	c0 98       	cbi	0x18, 0	; 24
+  5c:	80 99       	sbic	0x10, 0	; 16
+  5e:	fb cf       	rjmp	.-10     	; 0x56 <WaitLCDBusyASM+0x8>
+  60:	8f ef       	ldi	r24, 0xFF	; 255
+  62:	81 bb       	out	0x11, r24	; 17
+  64:	08 95       	ret
+
+00000066 <SendCommandASM>:
+  66:	cf 93       	push	r28
+  68:	df 93       	push	r29
+  6a:	1f 92       	push	r1
+  6c:	cd b7       	in	r28, 0x3d	; 61
+  6e:	de b7       	in	r29, 0x3e	; 62
+  70:	89 83       	std	Y+1, r24	; 0x01
+  72:	ed df       	rcall	.-38     	; 0x4e <WaitLCDBusyASM>
+  74:	89 81       	ldd	r24, Y+1	; 0x01
+  76:	82 bb       	out	0x12, r24	; 18
+  78:	c7 98       	cbi	0x18, 7	; 24
+  7a:	c6 98       	cbi	0x18, 6	; 24
+  7c:	c0 9a       	sbi	0x18, 0	; 24
+  7e:	00 00       	nop
+  80:	c0 98       	cbi	0x18, 0	; 24
+  82:	12 ba       	out	0x12, r1	; 18
+  84:	0f 90       	pop	r0
+  86:	df 91       	pop	r29
+  88:	cf 91       	pop	r28
+  8a:	08 95       	ret
+
+0000008c <SendCharacterASM>:
+  8c:	cf 93       	push	r28
+  8e:	df 93       	push	r29
+  90:	1f 92       	push	r1
+  92:	cd b7       	in	r28, 0x3d	; 61
+  94:	de b7       	in	r29, 0x3e	; 62
+  96:	89 83       	std	Y+1, r24	; 0x01
+  98:	da df       	rcall	.-76     	; 0x4e <WaitLCDBusyASM>
+  9a:	89 81       	ldd	r24, Y+1	; 0x01
+  9c:	e8 2f       	mov	r30, r24
+  9e:	f0 e0       	ldi	r31, 0x00	; 0
+  a0:	ee 59       	subi	r30, 0x9E	; 158
+  a2:	ff 4f       	sbci	r31, 0xFF	; 255
+  a4:	80 81       	ld	r24, Z
+  a6:	82 bb       	out	0x12, r24	; 18
+  a8:	c6 98       	cbi	0x18, 6	; 24
+  aa:	c7 9a       	sbi	0x18, 7	; 24
+  ac:	c0 9a       	sbi	0x18, 0	; 24
+  ae:	00 00       	nop
+  b0:	c0 98       	cbi	0x18, 0	; 24
+  b2:	12 ba       	out	0x12, r1	; 18
+  b4:	0f 90       	pop	r0
+  b6:	df 91       	pop	r29
+  b8:	cf 91       	pop	r28
+  ba:	08 95       	ret
+
+000000bc <InitLcd>:
+  bc:	cf 93       	push	r28
+  be:	df 93       	push	r29
+  c0:	b8 9a       	sbi	0x17, 0	; 23
+  c2:	bf 9a       	sbi	0x17, 7	; 23
+  c4:	be 9a       	sbi	0x17, 6	; 23
+  c6:	2f ef       	ldi	r18, 0xFF	; 255
+  c8:	89 ef       	ldi	r24, 0xF9	; 249
+  ca:	90 e0       	ldi	r25, 0x00	; 0
+  cc:	21 50       	subi	r18, 0x01	; 1
+  ce:	80 40       	sbci	r24, 0x00	; 0
+  d0:	90 40       	sbci	r25, 0x00	; 0
+  d2:	e1 f7       	brne	.-8      	; 0xcc <InitLcd+0x10>
+  d4:	00 c0       	rjmp	.+0      	; 0xd6 <InitLcd+0x1a>
+  d6:	00 00       	nop
+  d8:	e0 91 60 00 	lds	r30, 0x0060
+  dc:	f0 91 61 00 	lds	r31, 0x0061
+  e0:	ff 27       	eor	r31, r31
+  e2:	ee 59       	subi	r30, 0x9E	; 158
+  e4:	ff 4f       	sbci	r31, 0xFF	; 255
+  e6:	80 81       	ld	r24, Z
+  e8:	be df       	rcall	.-132    	; 0x66 <SendCommandASM>
+  ea:	2f ef       	ldi	r18, 0xFF	; 255
+  ec:	89 ef       	ldi	r24, 0xF9	; 249
+  ee:	90 e0       	ldi	r25, 0x00	; 0
+  f0:	21 50       	subi	r18, 0x01	; 1
+  f2:	80 40       	sbci	r24, 0x00	; 0
+  f4:	90 40       	sbci	r25, 0x00	; 0
+  f6:	e1 f7       	brne	.-8      	; 0xf0 <InitLcd+0x34>
+  f8:	00 c0       	rjmp	.+0      	; 0xfa <InitLcd+0x3e>
+  fa:	00 00       	nop
+  fc:	8c e1       	ldi	r24, 0x1C	; 28
+  fe:	b3 df       	rcall	.-154    	; 0x66 <SendCommandASM>
+ 100:	2f ef       	ldi	r18, 0xFF	; 255
+ 102:	89 ef       	ldi	r24, 0xF9	; 249
+ 104:	90 e0       	ldi	r25, 0x00	; 0
+ 106:	21 50       	subi	r18, 0x01	; 1
+ 108:	80 40       	sbci	r24, 0x00	; 0
+ 10a:	90 40       	sbci	r25, 0x00	; 0
+ 10c:	e1 f7       	brne	.-8      	; 0x106 <InitLcd+0x4a>
+ 10e:	00 c0       	rjmp	.+0      	; 0x110 <InitLcd+0x54>
+ 110:	00 00       	nop
+ 112:	80 e7       	ldi	r24, 0x70	; 112
+ 114:	a8 df       	rcall	.-176    	; 0x66 <SendCommandASM>
+ 116:	2f ef       	ldi	r18, 0xFF	; 255
+ 118:	89 ef       	ldi	r24, 0xF9	; 249
+ 11a:	90 e0       	ldi	r25, 0x00	; 0
+ 11c:	21 50       	subi	r18, 0x01	; 1
+ 11e:	80 40       	sbci	r24, 0x00	; 0
+ 120:	90 40       	sbci	r25, 0x00	; 0
+ 122:	e1 f7       	brne	.-8      	; 0x11c <InitLcd+0x60>
+ 124:	00 c0       	rjmp	.+0      	; 0x126 <InitLcd+0x6a>
+ 126:	00 00       	nop
+ 128:	80 e8       	ldi	r24, 0x80	; 128
+ 12a:	9d df       	rcall	.-198    	; 0x66 <SendCommandASM>
+ 12c:	2f ef       	ldi	r18, 0xFF	; 255
+ 12e:	89 ef       	ldi	r24, 0xF9	; 249
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	21 50       	subi	r18, 0x01	; 1
+ 134:	80 40       	sbci	r24, 0x00	; 0
+ 136:	90 40       	sbci	r25, 0x00	; 0
+ 138:	e1 f7       	brne	.-8      	; 0x132 <InitLcd+0x76>
+ 13a:	00 c0       	rjmp	.+0      	; 0x13c <InitLcd+0x80>
+ 13c:	00 00       	nop
+ 13e:	86 e0       	ldi	r24, 0x06	; 6
+ 140:	92 df       	rcall	.-220    	; 0x66 <SendCommandASM>
+ 142:	2f ef       	ldi	r18, 0xFF	; 255
+ 144:	89 ef       	ldi	r24, 0xF9	; 249
+ 146:	90 e0       	ldi	r25, 0x00	; 0
+ 148:	21 50       	subi	r18, 0x01	; 1
+ 14a:	80 40       	sbci	r24, 0x00	; 0
+ 14c:	90 40       	sbci	r25, 0x00	; 0
+ 14e:	e1 f7       	brne	.-8      	; 0x148 <InitLcd+0x8c>
+ 150:	00 c0       	rjmp	.+0      	; 0x152 <InitLcd+0x96>
+ 152:	00 00       	nop
+ 154:	c2 e6       	ldi	r28, 0x62	; 98
+ 156:	d1 e0       	ldi	r29, 0x01	; 1
+ 158:	89 91       	ld	r24, Y+
+ 15a:	88 23       	and	r24, r24
+ 15c:	11 f0       	breq	.+4      	; 0x162 <InitLcd+0xa6>
+ 15e:	96 df       	rcall	.-212    	; 0x8c <SendCharacterASM>
+ 160:	fb cf       	rjmp	.-10     	; 0x158 <InitLcd+0x9c>
+ 162:	df 91       	pop	r29
+ 164:	cf 91       	pop	r28
+ 166:	08 95       	ret
+
+00000168 <main>:
+ 168:	a9 cf       	rjmp	.-174    	; 0xbc <InitLcd>
+
+0000016a <_exit>:
+ 16a:	f8 94       	cli
+
+0000016c <__stop_program>:
+ 16c:	ff cf       	rjmp	.-2      	; 0x16c <__stop_program>
