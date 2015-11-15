@@ -6,11 +6,9 @@
 
 int main(void)
 {
-	DDRB |= _BV(1);
-	PORTB |= _BV(1);
 	InitLcd();
 	InitPWMASM();
-	SetPWMASM(0xff);
+	SetPWMASM(0xF0);
 	SendCharacter('t');
 	SendCharacter('e');
 	SendCharacter('s');

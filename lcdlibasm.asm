@@ -142,26 +142,11 @@ InitLcdASMR: //reversed InitLcdASM
 .global InitPWMASM
 	.type InitPWMASM, @function
 InitPWMASM:
-	; sbi 0x17, 1
-	; ;out 0x2f, 0x81
-	; ;out 0x2e, 0x09
-	; in r24,0x2f
-	; ori r24,lo8(-127)
-	; out 0x2f,r24
-	; in r24,0x2e
-	; ori r24,lo8(9)
-	; out 0x2e,r24
-	sbi 0x17,1
-	in r24,0x2f
-	ori r24,lo8(-127)
-	out 0x2f,r24
-	in r24,0x2e
-	ori r24,lo8(9)
-	out 0x2e,r24
-	ldi r24,0
-	ldi r25,0
-	out 0x2a+1,r25
-	out 0x2a,r24
+	sbi 0x17, 1
+	ldi r24, 0x81
+	out 0x2f, r24
+	ldi r24, 0x09
+	out 0x2e, r24
 	ret
 	.size InitPWMASM, .-InitPWMASM
 
