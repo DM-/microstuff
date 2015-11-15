@@ -1,4 +1,4 @@
-#define REVERSED 0
+#define REVERSED 1
 #define F_CPU 8000000
 #include "lcdlib.c"
 #include <avr/io.h>
