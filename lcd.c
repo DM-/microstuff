@@ -35,6 +35,8 @@ int main(void)
 	SendCharacter('H');
 	SendCharacter('A');
 	while(1){
+		_delay_ms(100);
+		SendCommand(0x18);
 
 	}
 }
