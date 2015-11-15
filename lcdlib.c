@@ -62,18 +62,6 @@ void SendCommandASM(unsigned char command){ // both this and sendchar are TERRIB
 	CONTROLPORT &=~_BV(READWRITE);
 	EnablePulse();
 	DATAPORT = 0;
-	// WaitLCDBusyASM();
-	// asm ("out %0 %5" "\n\t"
-	// 	"cbi %1 %2" "\n\t"
-	// 	"cbi %1 %3" "\n\t"
-	// 	"sbi %1 %4" "\n\t"
-	// 	"nop" "\n\t"
-	// 	"cbi %1 %4" "\n\t"
-	// 	"out %0 %6" "\n\t"
-	// 	"ret"
-	// 	:"=&I" (_SFR_IO_ADDR(PORTD)),"=&I" (_SFR_IO_ADDR(PORTB )) // Output ops
-	// 	:"M" (REGISTERSELECT),"M"(READWRITE),"M" (ENABLE),"a" (command), "M" (0x00)
-	// 	); // input ops
 }
 
 static void SendCommand(unsigned char command){
@@ -115,4 +103,9 @@ void InitLcd(void){
 	_delay_ms(40);
 	SendCommandASM(0x06); //Entry mode set to increment, no shift
 	_delay_ms(40);
+	SendString("testing");
+}
+
+void main(void){
+	InitLcd();
 }
