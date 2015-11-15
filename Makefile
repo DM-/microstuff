@@ -13,28 +13,28 @@ LIBOBJ		:=
 	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U flash:w:$*.hex
 
 %.elf: %.c
-	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -Wall -Os -o $@ $< $(LIBRARIES)
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -Wextra -Wall -Os -o $@ $< $(LIBRARIES)
 
 %.elf: %.asm
-	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -x assembler-with-cpp -Wall -Os -o $@ $< $(LIBRARIES)
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -L./lib/ -I./include/ -x assembler-with-cpp -Wextra -Wall -Os -o $@ $< $(LIBRARIES)
 
 %.hex: %.elf
 	avr-objcopy -R .eeprom -O ihex $< $@
 
 %.asmt: %.c
-	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -S -L./lib/ -I./include/ -Wall -Os -o ./asmt/$@ $<
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -S -L./lib/ -I./include/ -Wextra -Wall -Os -o ./asmt/$@ $<
 
 %.asmt: %.asm
-	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -S -x assembler-with-cpp -L./lib/ -I./include/ -Wall -Os $< >./asmt/$@
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -S -x assembler-with-cpp -L./lib/ -I./include/ -Wextra -Wall -Os $< >./asmt/$@
 
 %.asmtd: %.elf
 	avr-objdump -S $< >./asmtd/$@
 
 %.o: %.c
-	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -c -L./lib/ -I./include/  -Wall -Os -o $@ $<
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -c -L./lib/ -I./include/ -Wextra  -Wall -Os -o $@ $<
 
 %.o: %.asm
-	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -c -x assembler-with-cpp -L./lib/ -I./include/ -Wall -Os -o $@ $<
+	avr-gcc -mmcu=$(TARGET) $(COMPILEROPTIONS) -c -x assembler-with-cpp -L./lib/ -I./include/ -Wextra -Wall -Os -o $@ $<
 
 fuses:
 	date >>fuses
