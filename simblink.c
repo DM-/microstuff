@@ -8,6 +8,6 @@ int main(void){
 	DDRB |= _BV(BLINKPORT); // set pin 3 as output
 	while(1){
 		PORTB ^= _BV(BLINKPORT);
-		_delay_ms(100);
+		_delay_ms(30);
 	}
 }
