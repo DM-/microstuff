@@ -3,11 +3,13 @@ PORT		:= 		/dev/ttyUSB0
 PROGRAMMER	:=		avrisp
 RATE		:=		19200
 GENERAL		:=		-U 
+COMPILEROPTIONS :=
 LIBRARIES	:=		
 LIBOBJ		:=		
 .PHONY		:		fuses generic
 
 # -flto can let the compiler optimise many .c s together
+# -nostartfiles to remove crt
 
 %.upload: %.hex
 	avrdude -v -P $(PORT) -p $(TARGET) -c $(PROGRAMMER) -b $(RATE) -U flash:w:$*.hex
