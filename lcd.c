@@ -8,7 +8,7 @@ int main(void)
 {
 	InitLCD();
 	InitPWM();
-	SetPWM(0xF0);
+	SetPWM(0xFF);
 	SendCharacter('t');
 	SendCharacter('e');
 	SendCharacter('s');
