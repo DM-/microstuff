@@ -1,9 +1,5 @@
 #include "RBLT.h"
 
-#ifdef PWM
-
-#endif
-
 #ifndef REVERSED
 #define REVERSED 0  // Set this to 1 here, on as a config define in your file to get stuff right
 #endif
